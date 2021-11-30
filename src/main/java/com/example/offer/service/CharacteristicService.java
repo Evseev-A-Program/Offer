@@ -5,6 +5,7 @@ import com.example.offer.exceptions.OfferNotFoundException;
 import com.example.offer.models.Characteristic;
 import com.example.offer.models.Offer;
 import com.example.offer.repository.CharacteristicDao;
+import com.example.offer.repository.OfferDao;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class CharacteristicService {
 
     private final CharacteristicDao characteristicDao;
+    private final OfferDao offerDao;
 
     public Characteristic findCharacteristicById(Long id) throws CharacteristicNotFoundException {
         Characteristic characteristic = characteristicDao.findById(id).get();
@@ -36,7 +38,7 @@ public class CharacteristicService {
     }
 
     public void saveCharacteristic(Characteristic characteristic, Long offerId) throws OfferNotFoundException {
-        Offer offer = new OfferService().findOfferById(offerId);
+        Offer offer = offerDao.findById(offerId).get();
         if (offer == null) {
             throw new OfferNotFoundException("Offer Not Found");
         }

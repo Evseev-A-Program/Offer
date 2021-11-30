@@ -1,16 +1,20 @@
 package com.example.offer.service;
 
+import com.example.offer.clients.CustomerClients;
+import com.example.offer.controllers.OfferPaidTypeNotFoundException;
 import com.example.offer.exceptions.OfferNotFoundException;
 import com.example.offer.models.Offer;
 import com.example.offer.repository.OfferDao;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class OfferService {
 
-    @Autowired
-    private OfferDao offerDao;
+    private final OfferDao offerDao;
+
 
     public Offer findOfferById(Long id) throws OfferNotFoundException {
     Offer offer = offerDao.findById(id).get();
@@ -32,8 +36,19 @@ public class OfferService {
         offerDao.deleteById(id);
     }
 
-    public Offer saveOffer(Offer offer){
-        return offerDao.save(offer);
+    public void saveOffer(Offer offer) throws OfferPaidTypeNotFoundException {
+
+        if (offer.getPaidTypesId().isEmpty()){
+                throw new OfferPaidTypeNotFoundException("Paid Type not found");
+        }
+
+        for (Long id : offer.getPaidTypesId()){
+            if (CustomerClients.getPaidType(id) == null) {
+                throw new OfferPaidTypeNotFoundException("Paid Type id = " + id + " not found");
+            }
+        }
+
+        offerDao.save(offer);
     }
 
     public void updateOfferById(Offer offer) throws OfferNotFoundException {

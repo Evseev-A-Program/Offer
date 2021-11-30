@@ -4,13 +4,11 @@ import org.springframework.web.client.RestTemplate;
 
 public class CustomerClients {
 
-    private static void getEmployees()
+    public static Object getPaidType(Long id)
     {
-        final String uri = "http://localhost:8080/springrestexample/employees.xml";
+        final String uri = "http://localhost:8080/paid-type/get?id=" + id;
 
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-
-        System.out.println(result);
+        return restTemplate.getForObject(uri, Object.class);
     }
 }
