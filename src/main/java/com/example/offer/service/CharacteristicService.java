@@ -42,7 +42,17 @@ public class CharacteristicService {
         if (offer == null) {
             throw new OfferNotFoundException("Offer Not Found");
         }
-        characteristic.setOffer(offer);
-        characteristicDao.save(characteristic);
+
+        Characteristic characteristicNew = characteristicDao.findByName(characteristic.getName());
+
+        if (characteristicNew != null){
+            offer.addCharacteristic(characteristicNew);
+            offerDao.save(offer);
+        } else {
+            characteristicDao.save(characteristic);
+            offer.addCharacteristic(characteristic);
+            offerDao.save(offer);
+        }
+
     }
 }

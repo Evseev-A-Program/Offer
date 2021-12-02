@@ -7,6 +7,7 @@ import org.hibernate.annotations.CollectionId;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -31,7 +32,16 @@ public class Offer {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Characteristic> characteristicList;
+    @ManyToMany
+    @JoinTable(joinColumns = @JoinColumn(name = "offer_id"),
+            inverseJoinColumns = @JoinColumn(name = "characteristic_id"))
+    private Set<Characteristic> characteristics;
 
+    public void addCharacteristic(Characteristic characteristic) {
+        characteristics.add(characteristic);
+    }
+
+    public void deleteCharacteristic() {
+        characteristics.forEach(characteristic -> characteristic.getOffers().remove(this));
+    }
 }

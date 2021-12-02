@@ -1,4 +1,4 @@
-package com.example.offer.controllers;
+package com.example.offer.exceptions;
 
 public class OfferPaidTypeNotFoundException extends Exception{
     public OfferPaidTypeNotFoundException(String message) {

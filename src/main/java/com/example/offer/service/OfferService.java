@@ -1,12 +1,11 @@
 package com.example.offer.service;
 
 import com.example.offer.clients.CustomerClients;
-import com.example.offer.controllers.OfferPaidTypeNotFoundException;
+import com.example.offer.exceptions.OfferPaidTypeNotFoundException;
 import com.example.offer.exceptions.OfferNotFoundException;
 import com.example.offer.models.Offer;
 import com.example.offer.repository.OfferDao;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +32,7 @@ public class OfferService {
         if ( offer == null) {
             throw new OfferNotFoundException("Offer Not Found");
         }
+        offer.deleteCharacteristic();
         offerDao.deleteById(id);
     }
 
@@ -42,11 +42,11 @@ public class OfferService {
                 throw new OfferPaidTypeNotFoundException("Paid Type not found");
         }
 
-        for (Long id : offer.getPaidTypesId()){
-            if (CustomerClients.getPaidType(id) == null) {
-                throw new OfferPaidTypeNotFoundException("Paid Type id = " + id + " not found");
-            }
-        }
+//        for (Long id : offer.getPaidTypesId()){
+//            if (CustomerClients.getPaidType(id) == null) {
+//                throw new OfferPaidTypeNotFoundException("Paid Type id = " + id + " not found");
+//            }
+//        }
 
         offerDao.save(offer);
     }
