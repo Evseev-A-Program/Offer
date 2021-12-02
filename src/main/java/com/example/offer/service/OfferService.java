@@ -42,11 +42,7 @@ public class OfferService {
                 throw new OfferPaidTypeNotFoundException("Paid Type not found");
         }
 
-//        for (Long id : offer.getPaidTypesId()){
-//            if (CustomerClients.getPaidType(id) == null) {
-//                throw new OfferPaidTypeNotFoundException("Paid Type id = " + id + " not found");
-//            }
-//        }
+
 
         offerDao.save(offer);
     }
