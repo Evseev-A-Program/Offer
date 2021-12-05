@@ -69,4 +69,13 @@ public class OfferController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/check-paid-type")
+    public ResponseEntity checkPaidType(@RequestParam Long paidTypeId){
+        try{
+            return ResponseEntity.ok(offerService.checkPaidType(paidTypeId));
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

@@ -3,7 +3,6 @@ package com.example.offer.models;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CollectionId;
 
 import javax.persistence.*;
 import java.util.List;
