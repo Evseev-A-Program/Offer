@@ -66,16 +66,6 @@ public class OfferService {
     }
 
     public Boolean checkPaidType(Long id) {
-//        CriteriaBuilder cb = entityManager.getCriteriaBuilder(); //em is EntityManager
-//        CriteriaQuery<Offer> cq = cb.createQuery(Offer.class);
-//        Root<Offer> root = cq.from(Offer.class);
-//
-//        Expression<Collection<Long>> paidTypesId = root.get("paidTypesId");
-//        Predicate containsFavoritedProduct = cb.isMember(id, paidTypesId);
-//
-//        cq.where(containsFavoritedProduct);
-//
-//        List<Offer> favoritesFolders = entityManager.createQuery(cq).getResultList();
 
         List<Long> listPT = offerDao.checkPaidTypebyId(id);
         if (listPT.isEmpty()) return true;
