@@ -3,10 +3,13 @@ package com.example.offer.controllers;
 import com.example.offer.exceptions.OfferNotFoundException;
 import com.example.offer.models.Offer;
 import com.example.offer.service.OfferService;
+import com.example.offer.transfer.OfferDTO.OfferDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/offer")
@@ -38,12 +41,8 @@ public class OfferController {
 
 
     @GetMapping("/get/all")
-    public ResponseEntity getAllOffers(){
-        try{
-            return ResponseEntity.ok(offerService.findAllOffers());
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public List<OfferDTO> getAllOffers(){
+        return offerService.findAllOffers();
     }
 
     @PutMapping("/update")

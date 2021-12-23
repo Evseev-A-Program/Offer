@@ -27,14 +27,13 @@ public class Offer {
     @CollectionTable(joinColumns = @JoinColumn(name = "offer_id"))
     private List<Long> paidTypesId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @ManyToOne
     private Category category;
 
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "offer_id"),
             inverseJoinColumns = @JoinColumn(name = "characteristic_id"))
-    private Set<Characteristic> characteristics;
+    private List<Characteristic> characteristics;
 
     public void addCharacteristic(Characteristic characteristic) {
         characteristics.add(characteristic);
@@ -43,4 +42,5 @@ public class Offer {
     public void deleteCharacteristic() {
         characteristics.forEach(characteristic -> characteristic.getOffers().remove(this));
     }
+
 }

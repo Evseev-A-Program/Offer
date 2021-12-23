@@ -1,19 +1,16 @@
 package com.example.offer.service;
 
-import com.example.offer.clients.CustomerClients;
-import com.example.offer.exceptions.OfferPaidTypeNotFoundException;
 import com.example.offer.exceptions.OfferNotFoundException;
+import com.example.offer.exceptions.OfferPaidTypeNotFoundException;
 import com.example.offer.models.Offer;
 import com.example.offer.repository.OfferDao;
+import com.example.offer.transfer.OfferDTO.OfferDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.*;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,8 +18,6 @@ import java.util.List;
 public class OfferService {
 
     private final OfferDao offerDao;
-    @PersistenceContext
-    private EntityManager entityManager;
 
 
     public Offer findOfferById(Long id) throws OfferNotFoundException {
@@ -33,8 +28,13 @@ public class OfferService {
         return offer;
 }
 
-    public Iterable<Offer> findAllOffers(){
-        return offerDao.findAll();
+    public List<OfferDTO> findAllOffers(){
+        List<OfferDTO> listDTO = new ArrayList<>();
+        List<Offer> list = (List<Offer>) offerDao.findAll();
+        for (Offer offer : list) {
+            listDTO.add(OfferDTO.from(offer));
+        }
+        return listDTO;
     }
 
     public void deleteOfferById(Long id) throws OfferNotFoundException {
