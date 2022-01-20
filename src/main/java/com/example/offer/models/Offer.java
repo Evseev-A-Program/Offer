@@ -25,7 +25,7 @@ public class Offer {
 
     @ElementCollection
     @CollectionTable(joinColumns = @JoinColumn(name = "offer_id"))
-    private List<Long> paidTypesId;
+    private Set<Long> paidTypesId;
 
     @ManyToOne
     private Category category;
@@ -42,5 +42,6 @@ public class Offer {
     public void deleteCharacteristic() {
         characteristics.forEach(characteristic -> characteristic.getOffers().remove(this));
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.offer.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,5 +24,10 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category", fetch=FetchType.EAGER)
+    @JsonIgnore
     private List<Offer> offers;
+
+    public Category() {
+
+    }
 }

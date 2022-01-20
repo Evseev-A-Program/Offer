@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/characteristic")
 public class CharacteristicController {
@@ -16,9 +18,9 @@ public class CharacteristicController {
     private CharacteristicService characteristicService;
 
     @PostMapping("/add")
-    public ResponseEntity addCharacteristic(@RequestBody Characteristic characteristic, @RequestParam Long offerId){
+    public ResponseEntity addCharacteristic(@RequestBody Characteristic characteristic){
         try{
-            characteristicService.saveCharacteristic(characteristic, offerId);
+            characteristicService.saveCharacteristic(characteristic);
             return ResponseEntity.ok("Characteristic save");
         } catch (OfferNotFoundException e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -40,10 +42,6 @@ public class CharacteristicController {
 
     @GetMapping("/get/all")
     public ResponseEntity getAllCharacteristic(){
-        try{
             return ResponseEntity.ok(characteristicService.findAllCharacteristics());
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 }

@@ -27,22 +27,63 @@ public class OfferController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @GetMapping("/add-paid-type")
+    public ResponseEntity addPaidType(@RequestParam Long id, Long paidTypeId){
+        try{
+            offerService.addPaidType(id, paidTypeId);
+            return ResponseEntity.ok("Offer save");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/add-category")
+    public ResponseEntity addCategory(@RequestParam Long id, Long categoryId){
+        try{
+            offerService.addCategory(id, categoryId);
+            return ResponseEntity.ok("Offer save");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/add-characteristic")
+    public ResponseEntity addCharacteristic(@RequestParam Long id, Long characteristicId){
+        try{
+            offerService.addCharacteristic(id, characteristicId);
+            return ResponseEntity.ok("Offer save");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/del-paid-type")
+    public ResponseEntity delPaidType(@RequestParam Long id, Long paidTypeId){
+        try{
+            offerService.delPaidType(id, paidTypeId);
+            return ResponseEntity.ok("Offer save");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @GetMapping("/get")
     public ResponseEntity getOneOffer(@RequestParam Long id){
         try{
             return ResponseEntity.ok(offerService.findOfferById(id));
         } catch (OfferNotFoundException e){
-            return ResponseEntity.badRequest().body((e.getMessage()));
-        } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-
     @GetMapping("/get/all")
-    public List<OfferDTO> getAllOffers(){
-        return offerService.findAllOffers();
+    public ResponseEntity getAllOffers(){
+        return ResponseEntity.ok(offerService.findAllOffers());
+    }
+
+    @GetMapping("/get/all-not-null")
+    public ResponseEntity getAllOffersNotNull(){
+        return ResponseEntity.ok(offerService.findAllOffersNotNull());
     }
 
     @PutMapping("/update")

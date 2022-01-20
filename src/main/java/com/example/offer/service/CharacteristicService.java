@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class CharacteristicService {
@@ -25,8 +27,8 @@ public class CharacteristicService {
         return characteristic;
     }
 
-    public Iterable<Characteristic> findAllCharacteristics(){
-        return characteristicDao.findAll();
+    public List<Characteristic> findAllCharacteristics(){
+        return (List<Characteristic>) characteristicDao.findAll();
     }
 
     public void deleteCharacteristicById(Long id) throws CharacteristicNotFoundException {
@@ -37,22 +39,9 @@ public class CharacteristicService {
         characteristicDao.delete(characteristic);
     }
 
-    public void saveCharacteristic(Characteristic characteristic, Long offerId) throws OfferNotFoundException {
-        Offer offer = offerDao.findById(offerId).get();
-        if (offer == null) {
-            throw new OfferNotFoundException("Offer Not Found");
-        }
+    public void saveCharacteristic(Characteristic characteristic) throws OfferNotFoundException {
 
-        Characteristic characteristicNew = characteristicDao.findByName(characteristic.getName());
-
-        if (characteristicNew != null){
-            offer.addCharacteristic(characteristicNew);
-            offerDao.save(offer);
-        } else {
-            characteristicDao.save(characteristic);
-            offer.addCharacteristic(characteristic);
-            offerDao.save(offer);
-        }
+        characteristicDao.save(characteristic);
 
     }
 }
