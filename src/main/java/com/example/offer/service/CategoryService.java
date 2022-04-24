@@ -21,4 +21,8 @@ public class CategoryService {
     public void saveCategory(Category category){
             categoryDao.save(category);
     }
+
+    public void deleteCategory(Long id) {
+        categoryDao.deleteById(id);
+    }
 }

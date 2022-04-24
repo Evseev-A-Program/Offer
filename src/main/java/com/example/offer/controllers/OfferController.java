@@ -19,9 +19,12 @@ public class OfferController {
     private final OfferService offerService;
 
     @PostMapping("/add")
-    public ResponseEntity addOffer(@RequestBody Offer offer){
+    public ResponseEntity addOffer(@RequestBody Offer offer,
+                            @RequestParam Long categoryId,
+                                   String characteristicName,
+                                   String characteristicDescription){
         try{
-            offerService.saveOffer(offer);
+            offerService.saveOffer(offer,categoryId,characteristicName,characteristicDescription);
             return ResponseEntity.ok("Offer save");
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -48,9 +51,11 @@ public class OfferController {
     }
 
     @GetMapping("/add-characteristic")
-    public ResponseEntity addCharacteristic(@RequestParam Long id, Long characteristicId){
+    public ResponseEntity addCharacteristic(@RequestParam Long id,
+                                            String characteristicName,
+                                            String characteristicDescription){
         try{
-            offerService.addCharacteristic(id, characteristicId);
+            offerService.addCharacteristic(id, characteristicName, characteristicDescription);
             return ResponseEntity.ok("Offer save");
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

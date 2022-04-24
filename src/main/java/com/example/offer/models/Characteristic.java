@@ -12,6 +12,9 @@ import java.util.Set;
 @Entity
 @ToString
 @Table
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Characteristic {
 
     @Id
@@ -22,7 +25,4 @@ public class Characteristic {
 
     private String description;
 
-    @ManyToMany(mappedBy = "characteristics")
-    @JsonIgnore
-    private List<Offer> offers;
 }

@@ -29,4 +29,13 @@ public class CategoryController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PostMapping("/delete")
+    public ResponseEntity deleteOffer(@RequestBody Long id){
+        try{
+            categoryService.deleteCategory(id);
+            return ResponseEntity.ok("Category delete");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

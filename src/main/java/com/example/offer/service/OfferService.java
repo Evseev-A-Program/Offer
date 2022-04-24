@@ -2,6 +2,7 @@ package com.example.offer.service;
 
 import com.example.offer.exceptions.OfferNotFoundException;
 import com.example.offer.exceptions.OfferPaidTypeNotFoundException;
+import com.example.offer.models.Characteristic;
 import com.example.offer.models.Offer;
 import com.example.offer.repository.CategoryDao;
 import com.example.offer.repository.CharacteristicDao;
@@ -43,7 +44,7 @@ public class OfferService {
         return list.stream()
                 .filter(x -> x.getPaidTypesId()!=null&&
                                 x.getCategory()!=null&&
-                                x.getCharacteristics()!=null)
+                                x.getCharacteristic()!=null)
                                 .collect(Collectors.toList());
     }
 
@@ -52,12 +53,21 @@ public class OfferService {
         if ( offer == null) {
             throw new OfferNotFoundException("Offer Not Found");
         }
-        offer.deleteCharacteristic();
         offerDao.deleteById(id);
     }
 
-    public void saveOffer(Offer offer) throws OfferPaidTypeNotFoundException {
+    public void saveOffer(Offer offer, Long categoryId,
+                          String characteristicName,
+                          String characteristicDescription) throws OfferPaidTypeNotFoundException {
+        offer.setCategory(categoryDao.findById(categoryId).get());
+        Characteristic characteristic = Characteristic.builder()
+                .name(characteristicName)
+                .description(characteristicDescription)
+                .build();
+        characteristicDao.save(characteristic);
+        offer.setCharacteristic(characteristic);
         offerDao.save(offer);
+
     }
 
     public void updateOfferById(Offer offer) throws OfferNotFoundException {
@@ -95,9 +105,12 @@ public class OfferService {
         offerDao.save(offer);
     }
 
-    public void addCharacteristic(Long id, Long characteristicId) {
+    public void addCharacteristic(Long id, String characteristicName, String characteristicDescription) {
         Offer offer = offerDao.findById(id).get();
-        offer.addCharacteristic(characteristicDao.findById(characteristicId).get());
+        offer.setCharacteristic(Characteristic.builder()
+                .name(characteristicName)
+                .description(characteristicDescription)
+                .build());
         offerDao.save(offer);
     }
 }
